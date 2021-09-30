@@ -1,0 +1,13 @@
+# Achievements Enabler
+
+Enables unlocking achievements locally by disabling game integrity checking while still preventing achievements from being unlocked on Steamworks and Railworks, as well as prevents data from being uploaded to the Milky Way.
+
+## Installation
+
+### Mod Manager (Recommended)
+
+Install either [Thunderstore Mod Manager](https://www.overwolf.com/app/Thunderstore-Thunderstore_Mod_Manager) or [r2modman](https://dsp.thunderstore.io/package/ebkr/r2modman/) and then install [AchievementsEnabler from Thunderstore](https://dsp.thunderstore.io/package/PhantomGamers/AchievementsEnabler/)
+
+### Manual Installation
+
+Follow the instructions from the [DSP Wiki](https://dsp-wiki.com/Modding:Getting_Started)
