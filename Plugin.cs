@@ -26,7 +26,6 @@ namespace AchievementsEnabler
         [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.AfterTick))]
         [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.BeforeTick))]
         [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.CheckMajorClause))]
-        [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.InitAfterGameDataReady))]
         [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.NotifyAbnormalityChecked))]
         // Disables unlocking achievements on Steam
         [HarmonyPatch(typeof(STEAMX), nameof(STEAMX.UnlockAchievement))]
@@ -52,6 +51,14 @@ namespace AchievementsEnabler
         {
             __instance.checkMask = 0;
             __instance.checkTicks = new long[10];
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.InitAfterGameDataReady))]
+        public static void GameAbnormalityCheck_InitAfterGameDataReady_Postfix(GameAbnormalityCheck __instance)
+        {
+            __instance.gameData.history.onTechUnlocked -= __instance.CheckTechUnlockValid;
+            __instance.gameData.mainPlayer.package.onStorageChange -= __instance.OnPlayerStorageChange;
         }
     }
 }
