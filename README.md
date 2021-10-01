@@ -11,3 +11,15 @@ Install either [Thunderstore Mod Manager](https://www.overwolf.com/app/Thunderst
 ### Manual Installation
 
 Follow the instructions from the [DSP Wiki](https://dsp-wiki.com/Modding:Getting_Started)
+
+## Changelog
+
+1.0.1:
+
+- Now enables achievements on save games that were marked dirty
+- Disabled additional functions that may be responsible for leaderboard uploads
+- Disabled additional functions responsible for unlocking achievements on Steam and RAIL
+
+1.0.0:
+
+- Initial release

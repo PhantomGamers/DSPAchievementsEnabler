@@ -25,15 +25,33 @@ namespace AchievementsEnabler
         // Disables GameAbnormalityCheck
         [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.AfterTick))]
         [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.BeforeTick))]
+        [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.CheckMajorClause))]
+        [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.InitAfterGameDataReady))]
+        [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.NotifyAbnormalityChecked))]
         // Disables unlocking achievements on Steam
         [HarmonyPatch(typeof(STEAMX), nameof(STEAMX.UnlockAchievement))]
+        [HarmonyPatch(typeof(SteamAchievementManager), nameof(SteamAchievementManager.UnlockAchievement))]
+        [HarmonyPatch(typeof(SteamAchievementManager), nameof(SteamAchievementManager.Update))]
+        [HarmonyPatch(typeof(SteamAchievementManager), nameof(SteamAchievementManager.Start))]
         // Disables unlocking achievements on RailWorks
         [HarmonyPatch(typeof(RAILX), nameof(RAILX.UnlockAchievement))]
+        [HarmonyPatch(typeof(RailAchievementManager), nameof(RailAchievementManager.UnlockAchievement))]
+        [HarmonyPatch(typeof(RailAchievementManager), nameof(RailAchievementManager.Update))]
+        [HarmonyPatch(typeof(RailAchievementManager), nameof(RailAchievementManager.Start))]
         // Disables uploading data to Milky Way
         [HarmonyPatch(typeof(PARTNER), nameof(PARTNER.UploadClusterGenerationToGalaxyServer))]
+        [HarmonyPatch(typeof(STEAMX), nameof(STEAMX.UploadScoreToLeaderboard))]
         public static bool Prefix()
         {
             return false;
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.Import))]
+        public static void GameAbnormalityCheck_Import_Postfix(GameAbnormalityCheck __instance)
+        {
+            __instance.checkMask = 0;
+            __instance.checkTicks = new long[10];
         }
     }
 }
