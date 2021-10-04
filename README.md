@@ -14,6 +14,11 @@ Follow the instructions from the [DSP Wiki](https://dsp-wiki.com/Modding:Getting
 
 ## Changelog
 
+1.0.2:
+
+- Now enables achievements on save games from other users
+- Fixed additional cases where achievements would have been disabled
+
 1.0.1:
 
 - Now enables achievements on save games that were marked dirty
