@@ -14,6 +14,10 @@ Follow the instructions from the [DSP Wiki](https://dsp-wiki.com/Modding:Getting
 
 ## Changelog
 
+1.0.3:
+
+- I forgot to increment the version in the assembly
+
 1.0.2:
 
 - Now enables achievements on save games from other users

@@ -4,7 +4,7 @@
     <TargetFramework>net472</TargetFramework>
     <AssemblyName>AchievementsEnabler</AssemblyName>
     <Description>Enables local achievements for modded clients</Description>
-    <Version>1.0.1</Version>
+    <Version>1.0.3</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>9.0</LangVersion>
     <OutDir>C:\Program Files (x86)\Steam\steamapps\common\Dyson Sphere Program\BepInEx\plugins\PhantomGamers-AchievementsEnabler\</OutDir>
