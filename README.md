@@ -14,6 +14,11 @@ Follow the instructions from the [DSP Wiki](https://dsp-wiki.com/Modding:Getting
 
 ## Changelog
 
+1.1.0:
+
+- Now compatible with DSP 0.8.22.9331
+- Added option to enable platform achievements
+
 1.0.3:
 
 - I forgot to increment the version in the assembly

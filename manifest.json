@@ -1,7 +1,7 @@
 {
     "name": "AchievementsEnabler",
     "description": "Enables local achievements for modded clients",
-    "version_number": "1.0.3",
+    "version_number": "1.1.0",
     "dependencies": [
       "xiaoye97-BepInEx-5.4.11"
     ],

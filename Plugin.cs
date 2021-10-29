@@ -19,6 +19,12 @@ namespace AchievementsEnabler
             // Plugin startup logic
             Log.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
 
+            Patches.EnablePlatformAchievements = Config.Bind<bool>(section: "General",
+                                                                   key: "EnablePlatformAchievements",
+                                                                   Patches.EnablePlatformAchievements,
+                                                                   "Enables achievements on Steam and RAIL"
+                                                                  ).Value;
+
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
         }
     }
@@ -26,13 +32,24 @@ namespace AchievementsEnabler
     [HarmonyPatch]
     public class Patches
     {
+        public static bool EnablePlatformAchievements { get; set; } = false;
+
         [HarmonyPrefix]
-        // Disables GameAbnormalityCheck
-        [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.AfterTick))]
-        [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.BeforeTick))]
-        [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.CheckMajorClause))]
-        [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.NotifyAbnormalityChecked))]
-        [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.CheckFreeModeConfig))]
+        // Disables GameAbnormalityCheck_Obsolete
+        [HarmonyPatch(typeof(GameAbnormalityCheck_Obsolete), nameof(GameAbnormalityCheck_Obsolete.AfterTick))]
+        [HarmonyPatch(typeof(GameAbnormalityCheck_Obsolete), nameof(GameAbnormalityCheck_Obsolete.BeforeTick))]
+        [HarmonyPatch(typeof(GameAbnormalityCheck_Obsolete), nameof(GameAbnormalityCheck_Obsolete.CheckMajorClause))]
+        [HarmonyPatch(typeof(GameAbnormalityCheck_Obsolete), nameof(GameAbnormalityCheck_Obsolete.NotifyAbnormalityChecked))]
+        [HarmonyPatch(typeof(GameAbnormalityCheck_Obsolete), nameof(GameAbnormalityCheck_Obsolete.CheckFreeModeConfig))]
+        // Disables uploading data to Milky Way
+        [HarmonyPatch(typeof(PARTNER), nameof(PARTNER.UploadClusterGenerationToGalaxyServer))]
+        [HarmonyPatch(typeof(STEAMX), nameof(STEAMX.UploadScoreToLeaderboard))]
+        public static bool Prefix()
+        {
+            return false;
+        }
+
+        [HarmonyPrefix]
         // Disables unlocking achievements on Steam
         [HarmonyPatch(typeof(STEAMX), nameof(STEAMX.UnlockAchievement))]
         [HarmonyPatch(typeof(SteamAchievementManager), nameof(SteamAchievementManager.UnlockAchievement))]
@@ -43,33 +60,30 @@ namespace AchievementsEnabler
         [HarmonyPatch(typeof(RailAchievementManager), nameof(RailAchievementManager.UnlockAchievement))]
         [HarmonyPatch(typeof(RailAchievementManager), nameof(RailAchievementManager.Update))]
         [HarmonyPatch(typeof(RailAchievementManager), nameof(RailAchievementManager.Start))]
-        // Disables uploading data to Milky Way
-        [HarmonyPatch(typeof(PARTNER), nameof(PARTNER.UploadClusterGenerationToGalaxyServer))]
-        [HarmonyPatch(typeof(STEAMX), nameof(STEAMX.UploadScoreToLeaderboard))]
-        public static bool Prefix()
+        public static bool PlatformPrefix()
         {
-            return false;
+            return EnablePlatformAchievements;
         }
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.Import))]
-        public static void GameAbnormalityCheck_Import_Postfix(GameAbnormalityCheck __instance)
+        [HarmonyPatch(typeof(GameAbnormalityCheck_Obsolete), nameof(GameAbnormalityCheck_Obsolete.Import))]
+        public static void GameAbnormalityCheck_Obsolete_Import_Postfix(GameAbnormalityCheck_Obsolete __instance)
         {
-            __instance.checkMask = 0;
+            __instance.checkMask_obsolete = 0;
             __instance.checkTicks = new long[10];
         }
 
         [HarmonyPrefix]
-        [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.isGameNormal))]
-        public static bool GameAbnormalityCheck_isGameNormal_Prefix(ref bool __result)
+        [HarmonyPatch(typeof(GameAbnormalityCheck_Obsolete), nameof(GameAbnormalityCheck_Obsolete.isGameNormal))]
+        public static bool GameAbnormalityCheck_Obsolete_isGameNormal_Prefix(ref bool __result)
         {
             __result = true;
             return false;
         }
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(GameAbnormalityCheck), nameof(GameAbnormalityCheck.InitAfterGameDataReady))]
-        public static void GameAbnormalityCheck_InitAfterGameDataReady_Postfix(GameAbnormalityCheck __instance)
+        [HarmonyPatch(typeof(GameAbnormalityCheck_Obsolete), nameof(GameAbnormalityCheck_Obsolete.InitAfterGameDataReady))]
+        public static void GameAbnormalityCheck_Obsolete_InitAfterGameDataReady_Postfix(GameAbnormalityCheck_Obsolete __instance)
         {
             __instance.gameData.history.onTechUnlocked -= __instance.CheckTechUnlockValid;
             __instance.gameData.mainPlayer.package.onStorageChange -= __instance.OnPlayerStorageChange;
