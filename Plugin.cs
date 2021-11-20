@@ -64,7 +64,7 @@ namespace AchievementsEnabler
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(AbnormalityRuntimeData), nameof(AbnormalityRuntimeData.Import))]
-        public static void AbnormalityRuntimeData_Import_Postfix(AbnormalityRuntimeData __instance)
+        public static void AbnormalityRuntimeData_Import_Postfix(ref AbnormalityRuntimeData __instance)
         {
             __instance.abnormalityTime = 0;
             __instance.evidences = new long[0];
