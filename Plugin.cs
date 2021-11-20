@@ -73,7 +73,7 @@ namespace AchievementsEnabler
         [HarmonyPrefix]
         [HarmonyPatch(typeof(AchievementLogic), nameof(AchievementLogic.active), MethodType.Getter)]
         [HarmonyPatch(typeof(AchievementLogic), nameof(AchievementLogic.isSelfFormalGame), MethodType.Getter)]
-        [HarmonyPatch(typeof(GameAbnormalityData), nameof(GameAbnormalityData.IsGameNormal))]
+        [HarmonyPatch(typeof(GameAbnormalityData), nameof(GameAbnormalityData.IsGameNormal), MethodType.Normal)]
         public static bool AlwaysTrue(ref bool __result)
         {
             __result = true;
