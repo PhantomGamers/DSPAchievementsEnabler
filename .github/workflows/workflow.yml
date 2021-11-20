@@ -8,11 +8,10 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: microsoft/setup-msbuild@v1
     - uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '5.0.x'
-    - run: msbuild AchievementsEnabler.sln /p:Configuration=Release
+    - run: dotnet build AchievementsEnabler.sln /p:Configuration=Release
     - name: Get version
       id: version
       uses: mavrosxristoforos/get-xml-info@1.0
