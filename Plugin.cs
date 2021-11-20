@@ -35,12 +35,9 @@ namespace AchievementsEnabler
         public static bool EnablePlatformAchievements { get; set; } = false;
 
         [HarmonyPrefix]
-        // Disables GameAbnormalityCheck_Obsolete
-        [HarmonyPatch(typeof(GameAbnormalityCheck_Obsolete), nameof(GameAbnormalityCheck_Obsolete.AfterTick))]
-        [HarmonyPatch(typeof(GameAbnormalityCheck_Obsolete), nameof(GameAbnormalityCheck_Obsolete.BeforeTick))]
-        [HarmonyPatch(typeof(GameAbnormalityCheck_Obsolete), nameof(GameAbnormalityCheck_Obsolete.CheckMajorClause))]
-        [HarmonyPatch(typeof(GameAbnormalityCheck_Obsolete), nameof(GameAbnormalityCheck_Obsolete.NotifyAbnormalityChecked))]
-        [HarmonyPatch(typeof(GameAbnormalityCheck_Obsolete), nameof(GameAbnormalityCheck_Obsolete.CheckFreeModeConfig))]
+        // Disables GameAbnormalityData
+        [HarmonyPatch(typeof(GameAbnormalityData), nameof(GameAbnormalityData.NotifyAbnormality))]
+        [HarmonyPatch(typeof(AbnormalityLogic), nameof(AbnormalityLogic.GameTick))]
         // Disables uploading data to Milky Way
         [HarmonyPatch(typeof(PARTNER), nameof(PARTNER.UploadClusterGenerationToGalaxyServer))]
         [HarmonyPatch(typeof(STEAMX), nameof(STEAMX.UploadScoreToLeaderboard))]
@@ -66,32 +63,18 @@ namespace AchievementsEnabler
         }
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(GameAbnormalityCheck_Obsolete), nameof(GameAbnormalityCheck_Obsolete.Import))]
-        public static void GameAbnormalityCheck_Obsolete_Import_Postfix(GameAbnormalityCheck_Obsolete __instance)
+        [HarmonyPatch(typeof(AbnormalityRuntimeData), nameof(AbnormalityRuntimeData.Import))]
+        public static void AbnormalityRuntimeData_Import_Postfix(AbnormalityRuntimeData __instance)
         {
-            __instance.checkMask_obsolete = 0;
-            __instance.checkTicks = new long[10];
+            __instance.abnormalityTime = 0;
+            __instance.evidences = new long[0];
         }
 
         [HarmonyPrefix]
-        [HarmonyPatch(typeof(GameAbnormalityCheck_Obsolete), nameof(GameAbnormalityCheck_Obsolete.isGameNormal))]
-        public static bool GameAbnormalityCheck_Obsolete_isGameNormal_Prefix(ref bool __result)
-        {
-            __result = true;
-            return false;
-        }
-
-        [HarmonyPostfix]
-        [HarmonyPatch(typeof(GameAbnormalityCheck_Obsolete), nameof(GameAbnormalityCheck_Obsolete.InitAfterGameDataReady))]
-        public static void GameAbnormalityCheck_Obsolete_InitAfterGameDataReady_Postfix(GameAbnormalityCheck_Obsolete __instance)
-        {
-            __instance.gameData.history.onTechUnlocked -= __instance.CheckTechUnlockValid;
-            __instance.gameData.mainPlayer.package.onStorageChange -= __instance.OnPlayerStorageChange;
-        }
-
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(AchievementSystem), nameof(AchievementSystem.isSelfFormalGame), MethodType.Getter)]
-        public static bool AchievementSystem_get_isSelfFormalGame_Prefix(ref bool __result)
+        [HarmonyPatch(typeof(AchievementLogic), nameof(AchievementLogic.active), MethodType.Getter)]
+        [HarmonyPatch(typeof(AchievementLogic), nameof(AchievementLogic.isSelfFormalGame), MethodType.Getter)]
+        [HarmonyPatch(typeof(GameAbnormalityData), nameof(GameAbnormalityData.IsGameNormal))]
+        public static bool AlwaysTrue(ref bool __result)
         {
             __result = true;
             return false;
