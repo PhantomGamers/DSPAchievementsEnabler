@@ -12,6 +12,7 @@ namespace AchievementsEnabler
     {
         internal static ManualLogSource Log;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "BepInEx uses this")]
         private void Awake()
         {
             Log = Logger;
