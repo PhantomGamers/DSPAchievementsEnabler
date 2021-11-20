@@ -1,0 +1,26 @@
+[config]
+schemaVersion = "0.0.1"
+
+[package]
+namespace = "PhantomGamers"
+name = "AchievementsEnabler"
+description = "Enables local achievements for modded clients"
+websiteUrl = "https://github.com/PhantomGamers/DSPAchievementsEnabler"
+containsNsfwContent = false
+
+[package.dependencies]
+xiaoye97-BepInEx = "5.4.17"
+
+[build]
+icon = "./icon.png"
+readme = "./README.md"
+outdir = "./build"
+
+[[build.copy]]
+source = "./bin/Release"
+target = ""
+
+[publish]
+repository = "https://thunderstore.io"
+communities = [ "dyson-sphere-program" ]
+categories = []
