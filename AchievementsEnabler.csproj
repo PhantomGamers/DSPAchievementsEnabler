@@ -7,7 +7,8 @@
     <Version>1.2.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>9.0</LangVersion>
-    <OutDir>C:\Program Files (x86)\Steam\steamapps\common\Dyson Sphere Program\BepInEx\plugins\PhantomGamers-AchievementsEnabler\</OutDir>
+    <OutDir>bin/$(Configuration)</OutDir>
+    <OutDir Condition="Exists($(GameDir))">C:\Program Files (x86)\Steam\steamapps\common\Dyson Sphere Program\BepInEx\plugins\PhantomGamers-AchievementsEnabler\</OutDir>
   </PropertyGroup>
 
   <ItemGroup>
