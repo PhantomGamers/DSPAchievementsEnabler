@@ -14,6 +14,10 @@ Follow the instructions from the [DSP Wiki](https://dsp-wiki.com/Modding:Getting
 
 ## Changelog
 
+1.3.0:
+
+- Fixed compatibility with DSP 0.9.24.11209
+
 1.2.1:
 
 - Fixed edge case where mod would load incorrectly on some configurations

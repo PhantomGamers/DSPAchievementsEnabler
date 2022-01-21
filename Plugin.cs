@@ -40,7 +40,8 @@ namespace AchievementsEnabler
         [HarmonyPatch(typeof(GameAbnormalityData), nameof(GameAbnormalityData.NotifyAbnormality))]
         [HarmonyPatch(typeof(AbnormalityLogic), nameof(AbnormalityLogic.GameTick))]
         // Disables uploading data to Milky Way
-        [HarmonyPatch(typeof(PARTNER), nameof(PARTNER.UploadClusterGenerationToGalaxyServer))]
+        [HarmonyPatch(typeof(MilkyWayWebClient), nameof(MilkyWayWebClient.SendUploadLoginRequest))]
+        [HarmonyPatch(typeof(MilkyWayWebClient), nameof(MilkyWayWebClient.SendUploadRecordRequest))]
         [HarmonyPatch(typeof(STEAMX), nameof(STEAMX.UploadScoreToLeaderboard))]
         public static bool Prefix()
         {
