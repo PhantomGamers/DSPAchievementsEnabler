@@ -19,7 +19,6 @@ jobs:
       PluginName : PhantomGamers-DSPAchievementsEnabler
       GithubRelease : true
       ThunderstoreRelease: true
-      OutDir : out/PhantomGamers-DSPAchievementsEnabler
     steps:
     - name: Check Tag
       id: check-tag
@@ -34,6 +33,16 @@ jobs:
       with:
         script: |
           core.setFailed('Invalid tag')
+
+    - name: Determine OutDir (BepInEx)
+      if: env.BundleBepInEx == 'true'
+      run: |
+        echo "OutDir=out/BepInEx/plugins/${{env.PluginName}}" >> $GITHUB_ENV
+    
+    - name: Determine OutDir
+      if: env.BundleBepInEx == 'false'
+      run: |
+        echo "OutDir=out/${{env.PluginName}}" >> $GITHUB_ENV
 
     - uses: actions/checkout@v2
     - uses: actions/setup-dotnet@v1
