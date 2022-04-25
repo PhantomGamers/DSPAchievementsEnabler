@@ -17,7 +17,7 @@ readme = "./README.md"
 outdir = "./build"
 
 [[build.copy]]
-source = "./bin/Release"
+source = "./dist"
 target = ""
 
 [publish]
