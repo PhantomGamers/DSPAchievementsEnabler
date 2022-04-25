@@ -16,10 +16,10 @@ jobs:
       BepInExVersion : 5
       BepInExArch : x64
       BepInExRuntime : IL2CPP
-      PluginName : PhantomGamers-\DSPAchievementsEnabler
+      PluginName : PhantomGamers-DSPAchievementsEnabler
       GithubRelease : true
       ThunderstoreRelease: true
-      OutDir : ${{env.BepInExArch == 'true' && 'out/BepInEx/plugins/${{env.PluginName}}' || 'out/${{env.PluginName}}'}}
+      OutDir : out/PhantomGamers-DSPAchievementsEnabler
     steps:
     - name: Check Tag
       id: check-tag
