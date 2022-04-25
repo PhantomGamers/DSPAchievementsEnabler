@@ -1,13 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>AchievementsEnabler</AssemblyName>
     <Description>Enables local achievements for modded clients</Description>
-    <Version>1.3.0</Version>
+    <Version>0.0.1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <LangVersion>9.0</LangVersion>
-    <OutDir>bin/$(Configuration)</OutDir>
+    <LangVersion>latest</LangVersion>
     <GameDir>C:\Program Files (x86)\Steam\steamapps\common\Dyson Sphere Program</GameDir>
     <OutDir Condition="Exists($(GameDir))">$(GameDir)\BepInEx\plugins\PhantomGamers-AchievementsEnabler\</OutDir>
   </PropertyGroup>
