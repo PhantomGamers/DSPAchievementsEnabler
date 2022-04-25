@@ -37,13 +37,14 @@ namespace AchievementsEnabler
 
         [HarmonyPrefix]
         // Disables GameAbnormalityData
-        [HarmonyPatch(typeof(GameAbnormalityData), nameof(GameAbnormalityData.NotifyAbnormality))]
+        [HarmonyPatch(typeof(ABN.GameAbnormalityData_0925), nameof(ABN.GameAbnormalityData_0925.NotifyOnAbnormalityChecked))]
+        [HarmonyPatch(typeof(ABN.GameAbnormalityData_0925), nameof(ABN.GameAbnormalityData_0925.TriggerAbnormality))]
         [HarmonyPatch(typeof(AbnormalityLogic), nameof(AbnormalityLogic.GameTick))]
         // Disables uploading data to Milky Way
         [HarmonyPatch(typeof(MilkyWayWebClient), nameof(MilkyWayWebClient.SendUploadLoginRequest))]
         [HarmonyPatch(typeof(MilkyWayWebClient), nameof(MilkyWayWebClient.SendUploadRecordRequest))]
         [HarmonyPatch(typeof(STEAMX), nameof(STEAMX.UploadScoreToLeaderboard))]
-        public static bool Prefix()
+        public static bool Skip()
         {
             return false;
         }
@@ -59,7 +60,7 @@ namespace AchievementsEnabler
         [HarmonyPatch(typeof(RailAchievementManager), nameof(RailAchievementManager.UnlockAchievement))]
         [HarmonyPatch(typeof(RailAchievementManager), nameof(RailAchievementManager.Update))]
         [HarmonyPatch(typeof(RailAchievementManager), nameof(RailAchievementManager.Start))]
-        public static bool PlatformPrefix()
+        public static bool SkipPlatform()
         {
             return EnablePlatformAchievements;
         }
@@ -68,17 +69,27 @@ namespace AchievementsEnabler
         [HarmonyPatch(typeof(AbnormalityRuntimeData), nameof(AbnormalityRuntimeData.Import))]
         public static void AbnormalityRuntimeData_Import_Postfix(ref AbnormalityRuntimeData __instance)
         {
-            __instance.abnormalityTime = 0;
+            __instance.triggerTime = 0;
+            __instance.protoId = 0;
             __instance.evidences = new long[0];
         }
 
         [HarmonyPrefix]
         [HarmonyPatch(typeof(AchievementLogic), nameof(AchievementLogic.active), MethodType.Getter)]
         [HarmonyPatch(typeof(AchievementLogic), nameof(AchievementLogic.isSelfFormalGame), MethodType.Getter)]
-        [HarmonyPatch(typeof(GameAbnormalityData), nameof(GameAbnormalityData.IsGameNormal), MethodType.Normal)]
+        [HarmonyPatch(typeof(PropertyLogic), nameof(PropertyLogic.isSelfFormalGame), MethodType.Getter)]
+        [HarmonyPatch(typeof(ABN.GameAbnormalityData_0925), nameof(ABN.GameAbnormalityData_0925.NothingAbnormal), MethodType.Normal)]
         public static bool AlwaysTrue(ref bool __result)
         {
             __result = true;
+            return false;
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(ABN.GameAbnormalityData_0925), nameof(ABN.GameAbnormalityData_0925.IsAbnormalTriggerred))]
+        public static bool AlwaysFalse(ref bool __result)
+        {
+            __result = false;
             return false;
         }
     }
