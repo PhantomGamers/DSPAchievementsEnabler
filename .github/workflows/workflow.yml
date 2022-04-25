@@ -18,7 +18,7 @@ jobs:
       BepInExRuntime : IL2CPP
       PluginName : PhantomGamers-DSPAchievementsEnabler
       GithubRelease : true
-      ThunderstoreRelease: false
+      ThunderstoreRelease: true
     steps:
     - name: Check Tag
       id: check-tag
