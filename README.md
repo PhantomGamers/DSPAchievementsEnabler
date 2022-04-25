@@ -14,6 +14,10 @@ Follow the instructions from the [DSP Wiki](https://dsp-wiki.com/Modding:Getting
 
 ## Changelog
 
+1.4.0:
+
+- Fixed compatibility with DSP 0.9.25
+
 1.3.0:
 
 - Fixed compatibility with DSP 0.9.24.11209
